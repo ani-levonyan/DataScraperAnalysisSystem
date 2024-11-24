@@ -40,10 +40,13 @@ public class DataRecordSorting {
         auto_am_DataRecord[] records_array= records.toArray(new auto_am_DataRecord[0]);
 
         // Use the bubble sorting algorithm defined in SortingAlgorithms to sort the record_array_based on price_in_AMD.
+        SortingAlgorithms.bubbleSort(records_array);
 
         // Use the insertion sorting algorithm defined in SortingAlgorithms to sort the record_array_based on price_in_AMD.
+        SortingAlgorithms.insertionSort(records_array);
 
         // Use the selection sorting algorithm defined in SortingAlgorithms to sort the record_array_based on price_in_AMD.
+        SortingAlgorithms.selectionSort(records_array);
 
         // Print each record after sorting
         for (auto_am_DataRecord record : records_array) {
@@ -54,5 +57,6 @@ public class DataRecordSorting {
             System.out.println("Price in AMD: " + record.getPriceInAMD());
             System.out.println("-----");
         }
+
     }
 }

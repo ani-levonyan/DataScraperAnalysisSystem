@@ -1,6 +1,8 @@
-package com.ds_intelligence_arm.for_tasks; 
+package com.ds_intelligence_arm.for_tasks;
 
-import com.ds_intelligence_arm.utils.DataStructures;
+import com.ds_intelligence_arm.utils.DataStructures.SingleLinkedList;
+import com.ds_intelligence_arm.utils.DataStructures.Queue;
+import com.ds_intelligence_arm.utils.DataStructures.Stack;
 import com.ds_intelligence_arm.storage.model.auto_am_DataRecord;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -40,12 +42,30 @@ public class DataRecordDataStructures {
 
         // Given the List save the records in SingleLinked List defined in DataStructures.
         // Print out using the SingleLinked List: URL, Title, Description, Price in USD, Price in AMD.
+        SingleLinkedList singleLinkedList = new SingleLinkedList();
+        for (auto_am_DataRecord record: records) {
+            singleLinkedList.insertBeginning(record);
+        }
+        System.out.println("SingleLinkedList contents:");
+        singleLinkedList.display();
 
         // Given the List save the records in Queue defined in DataStructures.
         // Print out using the SingleLinked List: URL, Title, Description, Price in USD, Price in AMD.\
+        Queue queue = new Queue();
+        for (auto_am_DataRecord record: records) {
+            queue.enqueue(record);
+        }
+        System.out.println("Queue contents:");
+        queue.display();
 
         // Given the List save the records in Stack defined in DataStructures.
         // Print out using the SingleLinked List: URL, Title, Description, Price in USD, Price in AMD.
+        Stack stack = new Stack();
+        for (auto_am_DataRecord record: records) {
+            stack.push(record);
+        }
+        System.out.println("Stack contents:");
+        stack.display();
 
     }
 }

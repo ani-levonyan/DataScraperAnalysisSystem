@@ -25,8 +25,32 @@ public class news_am_DataRecord {
         this.html = html;
     }
 
+    //ToDo: Getter for url, date, title, text using any of the getElements method
 
-    //ToDo: Getter for url, date, title, text using any of the getElements method 
+    public String getUrl() {
+        return this.url;
+    }
+
+    public String getDate() {
+        return getFirstElementText("span.news-time");
+    }
+
+    public String getTitle() {
+        String title = getMetaContent("og:title");
+        if (title.isEmpty()) {
+            title = getFirstElementText("title");
+        }
+        return title;
+    }
+
+    public String getText() {
+        List<Element> paragraphs = getElementsBySelector("div.article-text p");
+        StringBuilder text = new StringBuilder();
+        for (Element paragraph : paragraphs) {
+            text.append(paragraph.text()).append("\n");
+        }
+        return text.toString().trim();
+    }
 
         // Method to retrieve the first matching element's text
         private String getFirstElementText(String selector) {
@@ -43,10 +67,16 @@ public class news_am_DataRecord {
         }
     
         // Generic method for fetching elements by selector
-    public List<Element> getElementsBySelector(String selector) {
+        public List<Element> getElementsBySelector(String selector) {
             Document document = Jsoup.parse(this.html);
             Elements elements = document.select(selector);
             return new ArrayList<>(elements);
         }
 
+    public String toString() {
+        return "URL: " + getUrl() +
+                ", Date: " + getDate() +
+                ", Title: " + getTitle() +
+                ", Text: " + getText();
+    }
 }

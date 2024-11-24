@@ -25,6 +25,8 @@ public class auto_am_DataRecord {
         this.html = html;
     }
 
+    //ToDo: Getter for url, price_in_usd, price_in_amd, title, description using any of the getElements method
+
     public String getUrl() {
         return this.url;
     }
@@ -38,14 +40,20 @@ public class auto_am_DataRecord {
     }
 
     public String getPriceInUSD() {
-        return getFirstElementText("#pricedown li:nth-child(1) span");  // Assuming .fnum within price section
+        String[] prices = getPrices();
+        String priceAMD = prices[1];
+        String priceUSD = prices[0];
+        return validatePrice(priceUSD, priceAMD, "$");  // Assuming .fnum within price section
     }
 
     public String getPriceInAMD() {
-        return getFirstElementText("#pricedown li:nth-child(3) span");  // Second item in dropdown for AMD
+        String[] prices = getPrices();
+        String priceAMD = prices[1];
+        String priceUSD = prices[0];
+        return validatePrice(priceAMD, priceUSD, "֏");  // Second item in dropdown for AMD
     }
 
-    //ToDo: Getter for url, price_in_usd, price_in_amd, title, description using any of the getElements method 
+
 
         // Method to retrieve the first matching element's text
         private String getFirstElementText(String selector) {
@@ -62,10 +70,36 @@ public class auto_am_DataRecord {
         }
     
         // Generic method for fetching elements by selector
-    public List<Element> getElementsBySelector(String selector) {
+        public List<Element> getElementsBySelector(String selector) {
             Document document = Jsoup.parse(this.html);
             Elements elements = document.select(selector);
             return new ArrayList<>(elements);
         }
+
+        private String[] getPrices() {
+            String priceUSD = getFirstElementText("#pricedown li:nth-child(1) span");
+            String priceAMD = getFirstElementText("#pricedown li:nth-child(3) span");
+            return new String[] {priceUSD, priceAMD};
+        }
+
+        private String validatePrice(String primaryField, String secondaryField, String expectedSymbol) {
+            if (primaryField != null && primaryField.contains(expectedSymbol)) {
+                return primaryField;
+            }
+            if (secondaryField != null && secondaryField.contains(expectedSymbol)) {
+                return secondaryField;
+            } else {
+                return "";
+            }
+        }
+
+        public String toString() {
+            return "URL: " + url +
+                    ", Title: " + this.getTitle() +
+                    ", Description: " + this.getDescription() +
+                    ", Price in USD: " + this.getPriceInUSD() +
+                    ", Price in AMD: " + this.getPriceInAMD();
+        }
+
 
 }
